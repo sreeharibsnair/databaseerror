@@ -1,0 +1,336 @@
+SELECT QUERY
+1. SELECT clause
+2. SELECT conditions
+3. Aggregate functions
+
+SELECT clauses
+
+1. WHERE
+2. FROM
+3. DISTINCT
+4. ORDER BY
+5. GROUP BY
+6. HAVING
+
+SELECT conditions
+
+1. AND
+2. OR
+3. AND, OR
+4. NOT
+5. NOT EQUAL
+6. BETWEEN
+7. IN
+8. EXISTS
+9. IS NULL
+10. IS NOT NULL
+11. LIKE
+
+Aggregate Functions
+
+1. COUNT()
+2. SUM()
+3. AVG()
+4. MIN()
+5. MAX()
+
+SELECT DISTINCT Statement
+
+ The SELECT DISTINCT statement is used to return only distinct (different)
+values.
+ Syntax:
+ SELECT DISTINCT column1, column2, ... FROM table_name;
+
+ORDER BY Keyword
+
+ The ORDER BY keyword is used to sort the result-set in ascending or
+descending order.
+ The ORDER BY keyword sorts the records in ascending order by default. To
+sort the records in descending order, use the DESC keyword.
+ Syntax:
+ SELECT column1, column2, ...
+FROM table_name
+ORDER BY column1, column2, ... ASC|DESC;
+
+Examples:
+
+ Order by Single Column (Ascending – Default)
+ SELECT * FROM product ORDER BY price;
+ ✔ Sorts products by price in ascending order (lowest to highest)
+ Order by Descending
+ SELECT * FROM product ORDER BY price DESC;
+ ✔ Sorts products from highest price to lowest
+ Order by Multiple Columns
+ SELECT * FROM customer ORDER BY city ASC, name ASC;
+ ✔ First sorts by city
+✔ Then sorts names within same city
+
+ ORDER BY with WHERE
+ SELECT * FROM product WHERE price < 50 ORDER BY price DESC;
+ ✔ Filters first
+✔ Then sorts the filtered result
+
+MySQL AND & OR condition
+
+ Syntax:
+WHERE condition1 AND condition2 ...
+OR condition_n;
+ Eg:
+SELECT * FROM students
+WHERE (course_name = 'Java' AND student_name = 'Aryan')
+OR (student_id < 2);
+
+MySQL- IN
+
+ used to reduce the use of multiple OR conditions in a SELECT, INSERT,
+UPDATE and DELETE statemt.
+ Syntax:
+ expression IN (value1, value2, .... value_n);
+
+MYSQL- NOT condition
+
+ It is used to negate a condition in a SELECT, INSERT, UPDATE or DELETE
+statement.
+ Eg:
+SELECT * FROM student
+WHERE name NOT IN ('Ajeet','Vimal','Deepika');
+
+MYSQL-NOT EQUAL
+
+ It is used for returning a set of rows after comparing two expressions that are
+not equal.
+ The MySQL contains two types of Not Equal operator, which are (< >) and
+(! =).
+ Eg:
+ SELECT * FROM students WHERE city <> "England";
+ SELECT * FROM students WHERE city != "England";
+ SELECT * FROM customers Where income>40000 and occupation<>"Developer";
+
+MYSQL-BETWEEN
+
+ specifies how to retrieve values from an expression within a specific range.
+ It is used with SELECT, INSERT, UPDATE and DELETE statement.
+ Syntax:
+ expression BETWEEN value1 AND value2;
+ Eg:
+SELECT * FROM students WHERE id BETWEEN 1 AND 3;
+
+MySQL- EXIST
+ It is a type of Boolean operator which returns the true or false result.
+ It is used in combination with a subquery and checks the existence of data in a
+subquery.
+ Syntax:
+SELECT col_names FROM tab_name WHERE [NOT] EXISTS (
+SELECT col_names FROM tab_name WHERE condition);
+Eg: STUDENT { id, name, age}
+MARK { id, m1,m2,grade}
+ mysql> SELECT name, age FROM student
+WHERE EXISTS (SELECT * FROM student
+WHERE student.id = mark.id);
+ Eg: mysql> SELECT name, age FROM student
+
+WHERE NOT EXISTS (SELECT * FROM student
+WHERE student.id = mark.id);
+
+ Eg: mysql> DELETE FROM mark WHERE EXISTS ( SELECT * FROM student
+
+WHERE id=3);
+
+MySQL – IS NULL
+
+ used to check if there is a NULL value in the expression. It is used with
+SELECT, INSERT, UPDATE and DELETE statement.
+ Syntax:
+ expression IS NULL
+ Eg:
+SELECT * FROM customer WHERE ph_no IS NULL;
+
+MySQL-IS NOT NULL
+
+ used to check the NOT NULL value in the expression. It is used with SELECT,
+INSERT, UPDATE and DELETE statements.
+ Syntax:
+ expression IS NOT NULL
+ Eg:
+ SELECT * FROM customer WHERE ph_no IS NOT NULL;
+
+MySQL - LIKE
+
+ used to perform pattern matching to find the correct result.
+ It is used in SELECT, INSERT, UPDATE and DELETE statement with the
+combination of WHERE clause.
+ syntax:
+ expression LIKE pattern [ ESCAPE 'escape_character' ]
+ pattern: It is a character expression that contains pattern matching.
+ escape_character: It is optional. It allows you to test for literal instances of a
+wildcard character such as % or _. If you do not provide the
+escape_character, MySQL assumes that "\" is the escape_character.
+
+Cntd...
+
+1. Using % (percent) Wildcard:
+ SELECT id FROM student WHERE name LIKE ‘Ash%';
+ SELECT id FROM student WHERE name LIKE ‘A%';
+ SELECT id FROM student WHERE name LIKE ‘%h%';
+2. Using _ (Underscore) Wildcard:
+ SELECT id FROM student WHERE name LIKE ‘a_h%';
+ SELECT id FROM student WHERE name LIKE ‘_ _h';
+ SELECT id FROM student WHERE name LIKE ‘_ _ _';
+
+Aggregate functions: COUNT
+
+ MySQL count() function is used to returns the count of an expression. It
+allows us to count all rows or only some rows of the table that matches a
+specified condition.
+ It is a type of aggregate function whose return type is BIGINT.
+ This function returns 0 if it does not find any matching rows.
+ We can use the count function in three forms, which are explained below:
+ Count (*)
+ Count (expression)
+ Count (distinct)
+
+ COUNT(*) Function: This function uses the SELECT statement to returns the
+count of rows in a result set. The result set contains all Non-Null, Null, and
+duplicates rows.
+ COUNT(expression) Function: This function returns the result set without
+containing Null rows as the result of an expression.
+ COUNT(distinct expression) Function: This function returns the count of
+distinct rows without containing NULL values as the result of the expression.
+
+ Syntax:
+SELECT COUNT (aggregate_expression) FROM table_name [WHERE conditions];
+ Eg:
+ mysql> SELECT COUNT(emp_name) FROM employees;
+ mysql> SELECT COUNT(*) FROM employees WHERE emp_age>32;
+ mysql> SELECT COUNT(DISTINCT emp_age) FROM employees;
+
+SUM() function
+
+ The MySQL sum() function is used to return the total summed value of an
+expression.
+ It returns NULL if the result set does not have any rows. It is one of the kinds
+of aggregate functions in MySQL.
+ Syntax:
+SELECT SUM(aggregate_expression) FROM tables [WHERE conditions];
+ Eg:
+ mysql> SELECT SUM(working_hours) AS "Total working hours" FROM employees;
+ mysql> SELECT SUM(working_hours) AS "Total working hours" FROM employees WH
+ERE working_hours>=12;
+
+Avg () function
+
+ The MySQL avg() is an aggregate function used to return the average
+value of an expression in various records.
+ Syntax:
+SELECT AVG(aggregate_expression) FROM tables [WHERE conditions];
+ Eg:
+ mysql> SELECT AVG(working_hours) AS Avg_working_hours FROM employees;
+ mysql> SELECT AVG(working_hours) AS
+Avg_working_hours FROM employees WHERE working_hours>=12;
+
+Min() function
+
+ The MIN() function in MySQL is used to return the minimum value in a set of
+values from the table.
+ It is an aggregate function that is useful when we need to find the smallest
+number, selecting the least expensive product, etc.
+ Syntax:
+SELECT MIN ( DISTINCT aggregate_expression) FROM table_name(s)
+[WHERE conditions];
+ Eg:
+ mysql> SELECT MIN(income) AS Minimum_Income FROM employees;
+ mysql> SELECT MIN(income) AS Minimum_Income FROM employees
+
+WHERE emp_age >= 32 AND emp_age <= 40;
+
+Max() function
+
+ The MySQL MAX() function is used to return the maximum value in a set of
+values of an expression.
+ This aggregate function is useful when we need to find the maximum
+number, selecting the most expensive product, or getting the largest
+payment to the customer from your table.
+ Syntax:
+SELECT MAX(DISTINCT aggregate_expression) FROM table_name(s)
+[WHERE conditions];
+ Eg:
+ mysql> SELECT MAX(income) AS "Maximum Income" FROM employees;
+ mysql> SELECT MAX(income) AS "Maximum_Income" FROM employees
+
+WHERE emp_age > 35;
+
+Display first row of a table:
+
+ The MySQL first function is used to return the first value of the selected
+column.
+ Here, we use limit clause to select first record or more.
+ Syntax:
+SELECT column_name FROM table_name LIMIT 1;
+ Eg:
+ SELECT officer_name FROM officers LIMIT 1;
+ SELECT officer_name FROM officers LIMIT 2;
+
+
+Display last row of a table:
+
+ MySQL last function is used to return the last value of the selected column.
+ Syntax:
+SELECT column_name FROM table_name ORDER BY column_name DESC LIMIT 1;
+ Eg:
+ SELECT officer_name FROM officers ORDER BY officer_id DESC LIMIT 1;
+
+GROUP BY
+
+ The MYSQL GROUP BY Clause is used to collect data from multiple records
+and group the result by one or more column.
+ It is generally used in a SELECT statement.
+ You can also use some aggregate functions like COUNT, SUM, MIN, MAX,
+AVG etc. on the grouped column.
+ Syntax:
+SELECT expression1, expression2, ... expression_n, aggregate_function (expression)
+FROM tables [WHERE conditions] GROUP BY expression1, expression2, ... expression_n;
+
+Cntd...
+
+ expression1, expression2, ... expression_n: It specifies the expressions that
+are not encapsulated within an aggregate function and must be included
+in the GROUP BY clause.
+ aggregate_function: It specifies a function such as SUM, COUNT, MIN, MAX,
+or AVG etc. tables: It specifies the tables, from where you want to retrieve
+the records. There must be at least one table listed in the FROM clause.
+ WHERE conditions: It is optional. It specifies the conditions that must be
+fulfilled for the records to be selected.
+
+Examples:
+
+ mysql>SELECT address, COUNT(*) FROM officers GROUP BY address;
+ SELECT emp_name, SUM(working_hours) AS "Total working hours"
+FROM employees GROUP BY emp_name;
+
+
+MySQL HAVING Clause
+
+ MySQL HAVING Clause is used with GROUP BY clause. It always returns the
+rows where condition is TRUE.
+ Syntax:
+ SELECT expression1, expression2, ... expression_n, aggregate_function (expr
+ession) FROM tables [WHERE conditions] GROUP BY expression1, expression2
+, ... expression_n HAVING condition;
+
+Examples:
+
+ SELECT emp_name, SUM(working_hours) AS "Total working hours"
+FROM employees GROUP BY emp_name HAVING SUM(working_hours) > 5;
+
+
+
+
+MySQL-RECORD PROGRAM-4 ((SELECT, Filtering using WHERE,  ORDER BY Clauses)
+RESMI S R
+•
+2:08 PM (Edited 2:09 PM)
+100 points
+1. List all invoice items, avoid duplicates.    
+2. List the customer details who not live in ‘tvm’.
+3. Display the customer details sorted in ascending by city and descending by names.
+4. Find the customer names who have ‘e’ or ‘a’ in them and at least 3 characters in length.
