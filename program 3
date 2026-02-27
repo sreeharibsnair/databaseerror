@@ -1,0 +1,199 @@
+MySQL- TCL, DCL
+
+TCL (Transaction Control Language)
+
+ TCL stands for Transaction Control Language
+ Used to manage transactions in database
+ Controls changes made by DML statements
+ Ensures data consistency
+ 📌 Works mainly with:
+ INSERT
+ UPDATE
+ DELETE
+
+What is a Transaction?
+
+ A Transaction is:
+ A group of SQL statements executed as a single unit.
+ Example:
+ Deduct money from Account A
+ Add money to Account B
+ Both must happen together.
+
+TCL Commands in MySQL
+
+ Main TCL commands:
+ COMMIT
+ ROLLBACK
+ SAVEPOINT
+ SET AUTOCOMMIT
+
+COMMIT
+
+ Saves all changes permanently
+ Makes changes visible to others
+ INSERT INTO student VALUES (101, 'Anu');
+ COMMIT;
+ ✔ Data permanently saved
+✔ Cannot undo after commit
+
+EG:
+
+ SET AUTOCOMMIT = 0;
+
+ INSERT INTO product VALUES (201, 'Pen', 10);
+ COMMIT;
+
+ROLLBACK
+
+ Undoes changes
+ Returns database to previous state
+ DELETE FROM student WHERE id = 101;
+ ROLLBACK;
+ ✔ Changes cancelled
+✔ Data restored
+
+EG:
+
+ SET AUTOCOMMIT = 0;
+ SELECT * FROM product;
+ INSERT INTO product VALUES (201, 'Pen', 10);
+ SELECT * FROM product;
+ ROLLBACK;
+ SELECT * FROM product;
+
+SAVEPOINT
+
+ Creates a temporary checkpoint
+ Allows partial rollback
+ SAVEPOINT sp1;
+ UPDATE student SET city='TVM' WHERE id=1;
+ ROLLBACK TO sp1;
+ ✔ Only changes after savepoint are undone
+
+Eg:
+
+ SET AUTOCOMMIT = 0;
+ INSERT INTO product VALUES (301,'Pen',10);
+ INSERT INTO product VALUES (302,'Pencil',5);
+ SAVEPOINT sp1;
+ UPDATE product SET price = 15 WHERE pid = 301;
+ SAVEPOINT sp2;
+ INSERT INTO product VALUES (303,'Notebook',40);
+ SAVEPOINT sp3;
+ DELETE FROM product WHERE pid = 302;
+ ROLLBACK TO sp3;
+ ROLLBACK TO sp1;
+ COMMIT;
+
+SET AUTOCOMMIT
+
+ By default:
+ AUTOCOMMIT = ON
+ Each statement automatically committed
+ To disable:
+ SET AUTOCOMMIT = 0;
+
+DCL (Data Control Language)
+
+ DCL stands for Data Control Language
+ Used to control access permissions
+ Manages user rights
+ Main commands:
+ GRANT
+ REVOKE
+
+GRANT Command
+
+ Gives permission to user
+ GRANT privilege
+ ON database.table
+ TO 'username'@‘localhost';
+ Types of Privileges:
+ SELECT
+ INSERT
+ UPDATE
+ DELETE
+ ALL PRIVILEGES
+
+Create User and Grant Privilege
+
+ CREATE USER 'user2'@'localhost' IDENTIFIED BY 'pass123';
+ GRANT SELECT
+ ON college.student
+ TO 'user2'@'localhost';
+
+Eg:
+
+ Grant INSERT Permission:
+ GRANT INSERT
+ ON college.student
+ TO 'user1'@'localhost';
+ Grant Multiple Permissions:
+ GRANT SELECT, INSERT, UPDATE
+ ON college.student
+ TO 'user1'@'localhost';
+
+ Grant All Privileges on Entire Database:
+ GRANT ALL PRIVILEGES
+ ON college.*
+ TO 'admin1'@'localhost';
+ Grant ALL privileges on one database:
+ GRANT ALL PRIVILEGES
+ ON college.*
+ TO 'user1'@'localhost';
+
+Show Privileges
+
+ Show Privileges of Current User:
+ SHOW GRANTS;
+ Show Privileges of Specific User:
+ SHOW GRANTS FOR 'user1'@'localhost';
+
+REVOKE Command
+
+ REVOKE is used to remove privileges from a user.
+ REVOKE SELECT ON college.student
+ FROM 'user1'@'localhost';
+ ✔ Removes only SELECT permission
+✔ User cannot view table data
+ Revoke Multiple Privileges:
+ REVOKE INSERT, UPDATE
+ ON college.student
+ FROM 'user1'@'localhost';
+
+ Revoke All Privileges on a Database:
+ REVOKE ALL PRIVILEGES
+ ON college.*
+ FROM 'user1'@'localhost';
+ Revoke GRANT OPTION
+ REVOKE GRANT OPTION
+ ON college.*
+ FROM 'admin1'@'localhost';
+
+Check After Revoke
+
+ SHOW GRANTS FOR 'user1'@'localhost';
+
+
+
+
+
+
+MySQL- RECORD PROGRAM3-TCL,DCL COMMANDS
+RESMI S R
+•
+Feb 23
+100 points
+3. TCL & DCL COMMANDS
+
+
+a) TCL COMMANDS 
+ 1. Commit 
+ 2. Rollback 
+ 3. Savepoint
+ b) DCL COMMAND 
+ Create two users user1, user2 
+ 1. GRANT:   Give insert and select privilege to user 1 on customer table in the invoice database.
+Give update and delete privilege to user 2 on all tables in the invoice database. 
+ 2. REVOKE:   Remove delete privilege of user 2.
