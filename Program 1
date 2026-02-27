@@ -1,0 +1,254 @@
+MySQL-DDL COMMANDS
+CREATE TABLE
+ALTER TABLE
+DROP TABLE
+TRUNCATE TABLE
+
+Lets Start....
+
+ show databases; used to show all databases.
+ show tables; used to show all tables in current database.
+ create database_name; used to create a database
+ use database_name; used to set as the current database.
+ desc table_name; used to show description of a table
+
+1. CREATE COMMAND
+
+ The CREATE TABLE statement is used to create a new table in a database.
+ The CREATE DATABASE statement is used to create a new DATABSE
+ Syntax:
+ CREATE DATABASE databsename;
+ CREATE TABLE table_name (
+column1 datatype,
+column2 datatype,
+column3 datatype,
+....
+);
+
+ CREATE DATABASE ksb;
+ CREATE TABLE student( name varchar(20), roll int);
+
+Experiments: CREATE
+ Create a table STUDENT having following fields: roll_no, name, age, address
+ Mysql> CREATE TABLE student (roll_no INT, name VARCHAR(15), age int,
+address VARCHAR (50));
+ Create a table EMPLOYEE have the following fields: Emp_id, emp_name,
+salary. Emp_is is primary key.
+ Mysql> CREATE TABLE employee( emp_id INT PRIMARY KEY, name
+VARCHAR(20), salary DECIMAL(5,2));
+ Create a table BOOK having the following fields:
+ book_no –primary key
+ Book_name - not null
+ Serial no. -unique
+ Author_name -
+ Price -set as default ‘0’
+ Mysql>create table book(book_no int primary key, book_name varchar(20)
+not null, sl_no int unique, author_name varchar(20), price decimal(3,2)
+default '0');
+
+ Create a table person have following fields:
+ P_id –autoincrement
+ Pname – notnull
+ Dob
+ Mysql> create table person (p_id int primary key auto_increment, p_name
+varchar(20), dob date);
+
+2. ALTER Command
+
+ The ALTER TABLE statement is used to add, delete, or modify columns in an
+existing table.
+ The ALTER TABLE statement is also used to add and drop various constraints
+on an existing table.
+
+2.1 ALTER TABLE - ADD Column
+
+ Syntax:
+ ALTER TABLE table_name ADD column_name datatype;
+ Eg: add a colum Email to the table student.
+ Mysql> ALTER TABLE student ADD Email varchar(255);
+ Add a colum dob to the table student;
+
+2.2 ALTER TABLE - DROP COLUMN
+
+ To delete a column in a table
+ Syntax:
+ ALTER TABLE table_name DROP COLUMN column_name;
+ Eg: drop the column email from the table student;
+ mysql> ALTER TABLE student DROP COLUMN Email;
+
+2.3 ALTER TABLE - ALTER/MODIFY COLUMN
+
+ To change the data type of a column in a table,
+ Syntax:
+ ALTER TABLE table_name MODIFY COLUMN column_name datatype;
+ Eg: Change the datatype of the column name as varchar (50)
+ Mysql>ALTER TABLE student MODIFY COLUMN name varchar(50);
+ Eg: Change the data type of the dob in year.
+
+3. DROP COMMAND
+
+ The DROP TABLE statement is used to drop an existing table in a database.
+ Syntax:
+ DROP TABLE table_name;
+ Eg:
+ Mysql> DROP TABLE student;
+
+4. TRUNCATE COMMAND
+
+ Delete all rows in a table’
+ Syntax:
+ TRUNCATE tablename;
+ Eg:
+ TRUNCATE STUDENT;
+
+ Create a table EMPLOYEE having following field:
+
+ Emp_id...INT
+ Emp_name----VARCHAR(15)
+ Salary ---DECIMAL(8,2)
+ Dob-----DATE
+
+
+
+
+
+
+
+
+
+DDL-EXTRA QUERIES
+
+ALTER command
+
+ ADD, DROP, MODIFY, CHANGE columns, constraints
+
+mysql> ALTER TABLE student ADD age INT;
+ALTER TABLE student DROP age;
+ALTER TABLE student ADD age INT FIRST;
+ALTER TABLE student DROP age;
+ALTER TABLE student ADD age INT AFTER name;
+
+ ALTER TABLE student
+ADD last_name varchar(40) NOT NULL
+AFTER age,
+ADD first_name varchar(35) NULL
+AFTER last_name;
+
+ mysql> ALTER TABLE student MODIFY last_name
+CHAR(10);
+ mysql> ALTER TABLE student CHANGE last_name lname
+BIGINT;
+
+ mysql> ALTER TABLE student MODIFY age INT NOT NULL
+DEFAULT 1;
+ ALTER TABLE student ALTER age SET DEFAULT 10;
+ ALTER TABLE student ALTER age DROP DEFAULT;
+ mysql> ALTER TABLE student RENAME TO teacher;
+
+Create constraints using create
+command
+
+ CREATE TABLE table_name
+ (
+ column1 datatype [ NULL | NOT NULL ],
+ column2 datatype [ NULL | NOT NULL ],
+ ...
+ CONSTRAINT constraint_name UNIQUE (uc_col1, uc_col2, ... uc_col_n)
+ );
+ Eg: create table student (roll int, name varchar(10), age int, adhar int,
+constraint c1 unique(age,adhar), constraint c2 primary key(roll));
+
+ADD constraints using ALTER command
+
+ ALTER TABLE student ADD CONSTRAINT c1 UNIQUE
+(last_name, first_name);
+ here c1 is the constraint name.
+ ALTER TABLE student ADD CONSTRAINT c2 PRIMARY KEY
+(ID);
+ ALTER TABLE student ADD CONSTRAINT c3 CHECK
+(age>20);
+
+3 ways to add constraints:
+
+1.Create table student (roll int primary key, name
+varchar(10), age int);
+2.Create table student (roll int, name varchar(10),
+age int, constraint c1 primary key (roll));
+3.Alter table student add constraint c1 primary
+key (roll);
+
+Drop constraints
+
+ ALTER TABLE STUDENT DROP PRIMARY KEY;
+
+ OR
+
+ ALTER TABLE STUDENT DROP CONSTRAINT C1;
+ ALTER TABLE table_name DROP INDEX c2;
+ ALTER TABLE Orders DROP FOREIGN KEY c4;
+ ALTER TABLE Persons DROP CHECK c3;
+ ALTER TABLE STUDENT MODIFY AGE INT NULL; (drop null constraint)
+
+Rename table
+
+ ALTER TABLE <table_old name> RENAME TO <new_name>;
+
+Create TEMPORARY table
+
+ Temporary Table that allows us to keep temporary data.
+ mysql> CREATE TEMPORARY TABLE table_name (
+column_1, column_2, ..., table_constraints
+);
+ eg: Mysql> CREATE TEMPORARY TABLE temporary_table_name SELECT *
+FROM original_table_name ;
+ mysql> CREATE TEMPORARY TABLE Students( student_name VARCHAR(40) N
+OT NULL, total_marks DECIMAL(12,2) NOT NULL DEFAULT 0.00, total_subjects I
+NT;
+
+Create DUPLICATE table
+
+ Copying data of an existing table into a new table is very useful in a
+situation like backing up data in table failure.
+ CREATE TABLE new_table_name
+SELECT column1, column2, column3
+FROM existing_table_name;
+ Eg: CREATE TABLE IF NOT EXISTS duplicate_table SELECT * FROM
+original_table;
+
+MySQL- RECORD PROGRAM 1- DDL Commands
+RESMI S R
+•
+Jan 27 (Edited Jan 31)
+100 points
+1. DDL COMMANDS 
+
+a) DDL-CREATE 
+
+1. Create a table EMPLOYEE have the following fields (emp_id, name,city,dob,adhar_no) 
+2. Create a table STUDENT have the fields(roll_no, name, age, address, gender)and add
+following constraints on it.
+Roll_no – Primary key
+Name – does not allow null values
+Age- must be in between (0-99), does not allow null values
+Gender- default value is ‘m’ 
+3. Create a temporary table STUDENT1 of STUDENT relation. 
+4. Create a duplicate table of EMPLOYEE. 
+
+5. Create an INVOICE database and having following tables.
+Customer(id, name, address, city, ph_no)
+Product(pid, pname, price (default 0))
+Invoice_master(inv_id, cust_id(FK), inv_date)
+Invoice_item(inv_id (FK), pid(FK), quantity)
+
+
+b) DDL-ALTER & DROP 
+
+1. Add a column ‘SSN’ at the first position in the table EMPLOYEE 
+ 2. Change the data type of the column ‘DOB’ in year the table EMPLOYEE 
+ 3. Delete the column ‘emp_id’ the table EMPLOYEE. 
+ 4. Add the constraint unique for columns ‘SSN, ‘adhar_no’ the table EMPLOYEE 
+ 5. Delete the NULL constraint of ‘age’ in the STUDENT table. 
+ 6. Change the table name EMPLOYEE as PERSON 
+ 7. Delete the table STUDENT1.
+
+
