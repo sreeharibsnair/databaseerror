@@ -1,0 +1,84 @@
+-- ================================
+-- A) TCL Commands with SELECT *
+-- ================================
+
+-- Use COMPANY_DB to work with STUDENT table
+USE COMPANY_DB;
+
+-- Disable autocommit
+SET AUTOCOMMIT = 0;
+
+-- 1. COMMIT Example
+INSERT INTO STUDENT VALUES (101, 'Resmi', 22, 'Sunshine Villa', 'f');
+SELECT * FROM STUDENT;  -- Check before commit
+
+COMMIT;  -- Save changes permanently
+SELECT * FROM STUDENT;  -- Check after commit
+
+-- 2. ROLLBACK Example
+INSERT INTO STUDENT VALUES (102, 'Akhil', 23, 'Green Villa', 'm');
+SELECT * FROM STUDENT;  -- Check before rollback
+
+ROLLBACK;  -- Undo the insert
+SELECT * FROM STUDENT;  -- Should not see Akhil
+
+-- 3. SAVEPOINT Example
+INSERT INTO STUDENT VALUES (103, 'Anu', 20, 'Rose Villa', 'f');
+SAVEPOINT sp1;
+SELECT * FROM STUDENT;  -- Check after insert & savepoint
+
+UPDATE STUDENT SET age = 21 WHERE name = 'Anu';
+SAVEPOINT sp2;
+SELECT * FROM STUDENT;  -- Check after update
+
+DELETE FROM STUDENT WHERE name = 'Anu';
+SAVEPOINT sp3;
+SELECT * FROM STUDENT;  -- Check after delete
+
+-- Rollback only to sp2 (undo delete)
+ROLLBACK TO sp2;
+SELECT * FROM STUDENT;  -- Anu should reappear with age 21
+
+-- Rollback to sp1 (undo update)
+ROLLBACK TO sp1;
+SELECT * FROM STUDENT;  -- Anu should appear with age 20
+
+-- Commit remaining changes
+COMMIT;
+SELECT * FROM STUDENT;  -- Final state
+
+-- ================================
+-- B) DCL Commands with SHOW GRANTS
+-- ================================
+
+-- Use INVOICE database to work with Customer table
+USE INVOICE;
+
+-- 1. Create users
+CREATE USER 'user1'@'localhost' IDENTIFIED BY 'pass123';
+CREATE USER 'user2'@'localhost' IDENTIFIED BY 'pass456';
+
+-- 2. Grant privileges
+-- User1: INSERT and SELECT on Customer table
+GRANT INSERT, SELECT
+ON INVOICE.Customer
+TO 'user1'@'localhost';
+
+-- Check privileges for user1
+SHOW GRANTS FOR 'user1'@'localhost';
+
+-- User2: UPDATE and DELETE on all tables in INVOICE database
+GRANT UPDATE, DELETE
+ON INVOICE.*
+TO 'user2'@'localhost';
+
+-- Check privileges for user2
+SHOW GRANTS FOR 'user2'@'localhost';
+
+-- 3. Revoke DELETE privilege from user2
+REVOKE DELETE
+ON INVOICE.*
+FROM 'user2'@'localhost';
+
+-- Check privileges again
+SHOW GRANTS FOR 'user2'@'localhost';
